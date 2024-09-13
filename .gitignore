@@ -1,0 +1,21 @@
+# Generated directories
+/node_modules
+/dist
+
+# Files generated
+/package-lock.json
+
+# .env
+.env
+
+*.log
+
+# Logs
+logs
+
+# logger
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
