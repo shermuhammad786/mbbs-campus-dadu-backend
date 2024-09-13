@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const PdfSchema = new mongoose.Schema({
     user: {
         type: String,
-        required: true
+        required: true,
     },
     pdf: {
         type: String,
-        required: true
+        required: true,
     }
 },
     { timestamps: true }
