@@ -13,6 +13,10 @@ app.get("/", (req, res) => {
     res.send("Hello World! from express")
     console.log("object");
 })
+app.get("/hello", (req, res) => {
+    res.send("vercel is deployed")
+    console.log("object");
+})
 
 app.use("/api", pdfRouter)
 console.log("hellow");
