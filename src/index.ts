@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api", pdfRouter)
+console.log("hellow");
 const PORT = process.env.PORT || 3006
 connectDB()
 app.listen(PORT, () => console.log("Server running on port 3000"))
