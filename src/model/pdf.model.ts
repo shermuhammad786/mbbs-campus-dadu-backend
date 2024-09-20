@@ -8,6 +8,10 @@ const PdfSchema = new mongoose.Schema({
     class: {
         type: String,
         required: true
+    },
+    desc: {
+        type: String,
+        required: true
     }
 },
     { timestamps: true }
