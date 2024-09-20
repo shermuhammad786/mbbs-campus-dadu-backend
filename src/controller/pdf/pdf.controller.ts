@@ -6,14 +6,14 @@ export const AddPdf = async (req: { body: { user: string; pdf: string } }, res: 
     const { subject, desc, pdf }: any = req.body
 
     if (!subject || !pdf || !desc) {
-        return res.status(400).json({ message: "All fields are required" })
+        return res.status(400).json({ status: false, message: "All fields are required" })
     }
 
     try {
         const newPdf = new PdfModel({ subject, pdf, desc })
 
         await newPdf.save()
-        return res.status(201).json({ message: "Pdf added successfully" })
+        return res.status(201).json({ status: true, message: "Pdf added successfully" })
     }
     catch (error) {
         console.log(error);
@@ -25,14 +25,14 @@ export const updatePdf = async (req: any, res: any) => {
     const { subject, desc, pdf }: any = req.body
 
     if (!subject || !pdf || !desc) {
-        return res.status(400).json({ message: "All fields are required" })
+        return res.status(400).json({ status: false, message: "All fields are required" })
     }
     try {
         const update = await PdfModel.findByIdAndUpdate(id, req.body)
         if (update) {
-            return res.status(200).json({ message: "Pdf updated successfully" })
+            return res.status(200).json({ status: true, message: "Pdf updated successfully" })
         } else {
-            return res.status(404).json({ message: "Pdf not found" })
+            return res.status(404).json({ status: false, message: "Pdf not found" })
         }
     } catch (error) {
         console.log(error);
@@ -44,10 +44,10 @@ export const deletePdf = async (req: any, res: any) => {
     try {
         const delet = await PdfModel.findByIdAndDelete(id)
         if (delet) {
-            return res.status(200).json({ message: "Pdf deleted successfully" })
+            return res.status(200).json({ status: true, message: "Pdf deleted successfully" })
         }
         else {
-            return res.status(404).json({ message: "Pdf not found" })
+            return res.status(404).json({ status: false, message: "Pdf not found" })
         }
     } catch (error) {
         console.log(error);
@@ -58,10 +58,10 @@ export const getPdf = async (req: any, res: any) => {
     try {
         const allPdf = await PdfModel.find();
         if (allPdf) {
-            return res.status(200).json(allPdf)
+            return res.status(200).json({ status: true, allPdf })
         }
         else {
-            return res.status(404).json({ message: "Pdf not found" })
+            return res.status(404).json({ status: false, message: "Pdf not found" })
         }
     } catch (error) {
         log(error)
@@ -73,9 +73,9 @@ export const getPdfById = async (req: any, res: any) => {
         const { id } = req.params
         const pdf = await PdfModel.findById(id)
         if (pdf) {
-            return res.status(200).json(pdf)
+            return res.status(200).json({ status: true, pdf })
         } else {
-            return res.status(404).json({ message: "Pdf not found" })
+            return res.status(404).json({ status: false, message: "Pdf not found" })
         }
     } catch (error) {
         log(error)
@@ -87,9 +87,9 @@ export const getPdfBysubject = async (req: any, res: any) => {
         const { subject } = req.params
         const pdf = await PdfModel.find({ subject: subject })
         if (pdf && pdf.length !== 0) {
-            return res.status(200).json(pdf)
+            return res.status(200).json({ status: true, pdf })
         } else {
-            return res.status(404).json({ message: "Pdf not found" })
+            return res.status(404).json({ status: false, message: "Pdf not found" })
         }
     } catch (error) {
         log(error)
