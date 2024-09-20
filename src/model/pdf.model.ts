@@ -5,7 +5,7 @@ const PdfSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    class: {
+    subject: {
         type: String,
         required: true
     },
