@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
 const PdfSchema = new mongoose.Schema({
-    user: {
-        type: String,
-        required: true,
-    },
     pdf: {
         type: String,
         required: true,
+    },
+    class: {
+        type: String,
+        required: true
     }
 },
     { timestamps: true }
