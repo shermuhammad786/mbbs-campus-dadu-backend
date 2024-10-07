@@ -1,22 +1,32 @@
 import { log } from "console";
 import { PdfModel } from "../../model/pdf.model";
-import mysql from "mysql"
+import { Client } from "pg"
 
-const connection = mysql.createConnection({
-    host: "localhost",
-    user: "sher12",
-    password: "sher123",
-    database: "users"
-})
 
-connection.connect((err) => {
-    if (err) {
-        console.log(err)
+// var conString = "postgres://avnadmin:AVNS_18zm3h6Yp5MWQFvQShH@pg-26d91ea0-sherabro141-36ca.l.aivencloud.com:17866/defaultdb";
+// var connection = new Client(conString);
+// connection.connect();
+
+
+const connection = new Client({
+    host: 'pg-26d91ea0-sherabro141-36ca.l.aivencloud.com',       // Replace with your host
+    port: 17866,              // Default PostgreSQL port
+    user: 'avnadmin',          // Your PostgreSQL username
+    password: 'AVNS_18zm3h6Yp5MWQFvQShH',  // Your PostgreSQL password
+    database: 'defaultdb',  // Your database name
+    ssl: {
+        rejectUnauthorized: false // Set to true for production
     }
-    else {
-        console.log("mysql db connected")
-    }
-})
+    // connectionString: "postgres://avnadmin:AVNS_18zm3h6Yp5MWQFvQShH@pg-26d91ea0-sherabro141-36ca.l.aivencloud.com:17866/defaultdb"
+});
+// const connection = new Client({
+//     host: 'localhost',       // Replace with your host
+//     port: 5432,              // Default PostgreSQL port
+//     user: 'myuser',          // Your PostgreSQL username
+//     password: 'mypassword',  // Your PostgreSQL password
+//     database: 'mydatabase',  // Your database name
+// });
+
 
 export const AddStudent = async (req: { body: { user: string; pdf: string } }, res: any) => {
     console.log("added lecture");
@@ -75,12 +85,28 @@ export const deleteStudent = async (req: any, res: any) => {
 export const getStudents = async (req: any, res: any) => {
     console.log("get lecture");
     try {
-        connection.query('SELECT * FROM Students', (err, result) => {
-            if (err) {
-                return res.json(err)
-            }
-            res.json(result)
-        })
+        const rollNo = '531';  // Example roll number
+        const newLastname = 'AbroUpdated';
+        const newEmail = 'sher.updated@gmail.com';
+        // connection.query(`CREATE TABLE studentData`, (err, result) => {
+        // connection.query(`INSERT INTO studentData (firstname,lastname,email,rollNo) VALUES ('NEW USER' ,'LASTNAME NEW','NEW@gmail.com','14')`, (err, result) => {
+
+        //     connection.query(`
+        // UPDATE studentData 
+        // SET lastname = 'update user', email = 'duplicate email' 
+        // WHERE id = '2' ` 
+        connection.query(`SELECT * FROM studentData`
+            , (err, result) => {
+                if (err) {
+                    console.log('Error executing query:', err.message);
+                    return res.status(500).json({ error: 'Failed to update student data', details: err.message });
+                }
+                if (result.rowCount === 0) {
+                    // No rows were updated
+                    return res.status(404).json({ message: 'No student found with rollNo 14' });
+                }
+                res.json({ message: 'Student updated successfully', result });
+            });
     } catch (error) {
         log(error)
     }
